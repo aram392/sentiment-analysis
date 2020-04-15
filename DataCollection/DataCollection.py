@@ -10,17 +10,27 @@ from textblob import TextBlob
 
 pathToSave = "data/"
 
+      
+def clear():
+    os.system( 'cls' )  
+
 reddit = praw.Reddit(client_id='IvGvwGotLBLBaA',
                     client_secret='kWWiOZ2LvKDy5gUyElLIOWrClAc',
                     username='HopefulHawk6',  
                     password='Wallstreetbets',
                     user_agent='wsbcomp')
 sub = reddit.subreddit('wallstreetbets')
+
+#limit is for how many hot posts you would like.
+#in this case it would be the current hot post.
 wallstreet = sub.hot(limit=1)
+pathsCreated=[]
+
 for post in wallstreet:
     title=post.title
     postid=post.id
     fullpath=pathToSave+str(title)+"_"+str(postid)+".csv"
+    pathsCreated.append(fullpath)
     file= pathlib.Path(fullpath)
     if file.exists():
         print(fullpath+"exists")
@@ -32,10 +42,14 @@ for post in wallstreet:
     with open(fullpath,'a+',newline='',encoding='utf-8')as write_obj:
         csvwriter=writer(write_obj)
         for comment in all_comments:
-            print("writing: {}".format(comment.id))
+            print("writing to csv file: id:{} comment:{}".format(comment.id,comment.body))
+            clear()
             row=[str(comment.body),str(comment.score),comment.id]
             csvwriter.writerow(row)
-      
+for paths in pathsCreated:
+    print(paths)
+print("done")
+
 # file= pathlib.Path(pathToSave+"test.csv")
 # if file.exists():
 #     print("exists")
