@@ -1,1 +1,4 @@
 DataCollection/data/
+TrainingData/*.csv
+Testing/csvFiles
+TrainingData/taggedCSV

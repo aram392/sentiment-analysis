@@ -1,0 +1,1 @@
+DataCollection.py takes the top post and creates a csv file "post_title+post_id.csv"
