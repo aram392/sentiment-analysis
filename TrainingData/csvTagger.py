@@ -25,14 +25,36 @@ else:
     print("CSV file doesnt exist")
     exit()
 
-with open(trainingFileName+"Tagged.csv", 'w', newline='',encoding='utf-8') as file:
+with open("taggedCSV/"+trainingFileName+"Tagged.csv", 'w', newline='',encoding='utf-8') as file:
     print(trainingFileName+"Tagged.csv")
 
+# file = open(os.path.join(trainingFileName), "rU")
+# reader = csv.reader(file, delimiter=',')
+# for row in reader:
+#     print(row)
 
-reader = csv.reader(file, delimiter=',')
-for row in reader:
-    print(row[0])
-
+with open(trainingFileName, encoding="utf8") as csvfile:
+    with open("taggedCSV/"+trainingFileName+"Tagged.csv",'a+',newline='',encoding='utf-8') as csvfile2:
+        csvwriter=writer(csvfile2)
+        csvreader = csv.reader(csvfile, delimiter=",")
+        for row in csvreader:
+            print(row[0])
+            click.echo('Left Arrow BEAR - Right Arrow BULL - Down Arrow Neutral', nl=False)
+            c = click.getchar()
+            click.echo()
+            if c == 'àM':
+                answer='pos'
+            elif c == 'àK':
+                answer='neg'
+            elif c == 'àP':
+                answer='neutral'
+            else:
+                answer='null'
+                break    
+            row=[str(row[0]),str(row[1]),str(row[2]),answer]
+            print(row)
+            csvwriter.writerow(row)
+            clear()
 
 # while True:
 
