@@ -23,7 +23,7 @@ sub = reddit.subreddit('wallstreetbets')
 
 #limit is for how many hot posts you would like.
 #in this case it would be the current hot post.
-wallstreet = sub.hot(limit=1000)
+wallstreet = sub.hot(limit=2000)
 pathsCreated=[]
 
 for post in wallstreet:
