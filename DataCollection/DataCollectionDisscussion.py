@@ -27,7 +27,7 @@ wallstreet = sub.hot(limit=1000)
 pathsCreated=[]
 
 for post in wallstreet:
-    if "What Are Your Moves Tomorrow" in post.title:
+    if "Daily Discussion Thread for" in post.title:
         title=post.title
         postid=post.id
         fullpath=pathToSave+str(title)+"_"+str(postid)+".csv"
@@ -44,9 +44,9 @@ for post in wallstreet:
             csvwriter=writer(write_obj)
             for comment in all_comments:
                 print("writing to csv file: id:{} comment:{}".format(comment.id,comment.body))
-                clear()
                 row=[str(comment.body),str(comment.score),comment.id]
                 csvwriter.writerow(row)
+            clear()
 for paths in pathsCreated:
     print(paths)
 print("done")
