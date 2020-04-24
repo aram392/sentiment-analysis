@@ -2,3 +2,5 @@ DataCollection/data/
 TrainingData/*.csv
 Testing/csvFiles
 TrainingData/taggedCSV
+venv
+vscode/settings.json
