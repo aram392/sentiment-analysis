@@ -2,7 +2,8 @@
 
 ## To run locally
 
-* Create a virtual environment on which to run this by:
+* Create a virtual environment on which to run this by
+
   -`python -m venv venv` on windows
   -`python3 -m venv venv` on mac
 * Activate the virtual environment
