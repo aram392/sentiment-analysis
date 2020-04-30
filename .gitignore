@@ -1,4 +1,6 @@
-DataCollection/data/
+DataCollection/data/*.csv
 TrainingData/*.csv
 Testing/csvFiles
-TrainingData/taggedCSV
+TrainingData/taggedCSV/*.csv
+venv
+vscode
