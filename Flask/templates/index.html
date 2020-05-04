@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head charset="UTF-8">
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src="static/js/application.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">    
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    
+</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div class="center" id="chart_div"></div>
+   
+
+<div class="center" id="content">
+        <h3 class="title">Wsb Sentiment:</h3>
+        <ul class="list-group" id="messages"></ul>
+        <ul id="comments"></ul>
+</div>
+
+
+</body>
+</html>
+
+<script>
+var count =0;
+var totalScore=0;
+var averageScore=50;
+google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          [' ', 50]
+        ]);
+
+        var options = {
+          width: 400, height: 250,
+          redFrom: 0, redTo: 33,
+          greenFrom:66, greenTo: 100,
+          minorTicks: 0,
+          majorTicks: 0
+        };
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+        chart.draw(data, options);
+
+        setInterval(function() {
+          data.setValue(0, 1,averageScore);
+          chart.draw(data, options);
+        }, 250);
+    }
+       
+
+
+$(document).ready(function() {
+var socket = io.connect('http://127.0.0.1:5000');
+var comments = [];
+socket.on('connect', function() {
+    socket.send('User has connected!');
+});
+
+socket.on('tcp_data', function(data) {
+    console.log(data.data.comment);
+    var result = data.data.comment
+    var score = data.data.score-1;
+    var messages = document.getElementById('messages');
+
+    var entry = document.createElement('li');
+    entry.classList.add('list-group-item');
+    entry.appendChild(document.createTextNode(score));
+    entry.appendChild(document.createTextNode('-'));
+    entry.appendChild(document.createTextNode(result));
+    messages.insertBefore(entry, messages.firstChild);
+
+    count++;
+    totalScore=totalScore+score;
+    averageScore=(totalScore/count)*25;
+    console.log('Received message');
+});
+});
+
+
+</script>
+<style>
+
+#chart_div{
+    width: 400px; 
+    height: 250px;
+    padding-left: 5%;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+.title{
+    text-align: center;
+}
+</style>

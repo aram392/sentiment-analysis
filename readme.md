@@ -1,16 +1,16 @@
-# r/WallStreetBets Sentiment Analysis
+how to label/tag comments
 
-## To run locally
+1.Get a csv of a comment thread by going to
+/DataCollection
 
-* Create a virtual environment on which to run this by
+running 
+python DataCollectionDisscussion.py
+will give csvs of recent discussion posts
 
-  -`python -m venv venv` on windows
-  -`python3 -m venv venv` on mac
-* Activate the virtual environment
-  - `\env\Scripts\activate.bat` on windows
-  - `source env/bin/activate` on mac
+2.choose a csv file and move it to 
+/TrainingData folder
 
-* Install dependencies
-  - `pip install -r requirements.txt`
-
-* run whatever python program from its folder, not root directory
+3.choose tagging method
+run 
+python csvTagger.py "filename.csv"          for pos,neg,neutral
+python csvRatingTagger.py "filename.csv"    for 1-5 ranking
