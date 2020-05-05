@@ -15,12 +15,12 @@
 
 * run whatever python program from its folder, not root directory
 
-*Go to /Flask
+* Go to /Flask
 
-*in your terminal run
-*export FLASK_APP=server.py
-*flask run
-*go to localhost:5000
+* in your terminal run
+* export FLASK_APP=server.py
+* flask run
+* go to localhost:5000
 
 
 
