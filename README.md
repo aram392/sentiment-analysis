@@ -19,7 +19,8 @@
 
 * in your terminal run
 * export FLASK_APP=server.py
-* flask run
+
+flask run
 * go to localhost:5000
 
 
