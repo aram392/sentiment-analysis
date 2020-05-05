@@ -14,6 +14,17 @@
   - `pip install -r requirements.txt`
 
 * run whatever python program from its folder, not root directory
+
+## Running server in local
+Go to /Flask
+in your terminal run
+export FLASK_APP=server.py
+flask run
+go to localhost:5000
+
+
+
+======================
 how to label/tag comments
 
 1.Get a csv of a comment thread by going to
