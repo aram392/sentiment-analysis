@@ -18,10 +18,10 @@
 * Go to /Flask
 
 * in your terminal run
-export FLASK_APP=server.py
+* export FLASK_APP=server.py
 
-flask run
-* go to localhost:5000
+* flask run
+* then go to localhost:5000
 
 
 
