@@ -26,12 +26,36 @@ f.close()
 #flask and socketio setup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret'
-socketio = SocketIO(app,cors_allowed_origins="*")
+app.config['DEBUG'] = True
+socketio = SocketIO(app,cors_allowed_origins="*", logger=True)
 thread = Thread()
 thread_stop_event = Event()
 
+def runCommentThread():
+    while not thread_stop_event.isSet():  
+        for comment in sub.stream.comments():
+            try:
+                commentBody=str(comment.body)
+                score=int(MultinomialNB.predict(CV.transform([commentBody])))
+                data = {'comment': commentBody, 'score': score} 
+                socketio.emit('tcp_data', {'data': data},namespace='/test')
+            except praw.exceptions.PRAWException as e:
+                print(e)
 
-@socketio.on('connect', namespace='/test')
+        # score=1
+        # commentBody='test'
+        # data = {'comment': commentBody, 'score': score} 
+        # socketio.emit('tcp_data', {'data': data},namespace='/test')
+        # print("socketio.emit t")
+        # socketio.sleep(2)
+
+
+@app.route('/')
+def index():
+    print('route')
+    return render_template('index.html')
+
+@socketio.on('connect',namespace='/test')
 def test_connect():
     global thread
     print('Client connected')
@@ -39,30 +63,20 @@ def test_connect():
     if not thread.isAlive():
         print("Starting Thread")
         thread = socketio.start_background_task(runCommentThread)
+    else:
+        print("Thread still alive")
 
-def runCommentThread():
-    print("Making random numbers")
-    while not thread_stop_event.isSet():  
-        for comment in sub.stream.comments():
-            try:
-                commentBody=str(comment.body)
-                score=int(MultinomialNB.predict(CV.transform([commentBody])))
-                data = {'comment': commentBody, 'score': score} 
-                socketio.emit('tcp_data', {'data': data})
-            except praw.exceptions.PRAWException as e:
-                print(e)
-            
+# @socketio.on('message')
+# def messageFunc(msg):
+#     print('user connected')
 
-@socketio.on('message')
-def handleMessage(msg):
-	print('Message: ' + msg)
-	send(msg, broadcast=True)
-msg1 = 'hey'
 
-@app.route('/')
-def index():
-    #only by sending this page first will the client be connected to the socketio instance
-    return render_template('index.html')
+
+@socketio.on('disconnect', namespace='/test')
+def test_disconnect():
+    print('Client disconnected')
+
+
 
 
 if __name__ == '__main__':
